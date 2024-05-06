@@ -2,7 +2,7 @@
 	"name": "SQL script 1",
 	"properties": {
 		"content": {
-			"query": "select * from dwh.d_product_categories;\n\nselect * from dwh.d_products order by product_Name;\n\nselect * from dwh.d_date order by DateKey;\n\n\n\n\nselect * from dwh.d_suppliers;\n\n",
+			"query": "select * from dwh.d_product_categories;\n\nselect * from dwh.d_products order by product_Name;\n\nselect * from dwh.d_date order by DateKey;\n\n\n\n\nselect * from dwh.d_suppliers;\n\nselect * from dwh.d_date;",
 			"metadata": {
 				"language": "sql"
 			},

@@ -1,0 +1,17 @@
+{
+	"name": "Dimension Date",
+	"properties": {
+		"content": {
+			"query": "--drop table dwh.d_date;\nCREATE TABLE dwh.d_date (\n    DateKey DATE,\n    DateInt INT,\n    YearKey INT,\n    QuarterOfYear INT,\n    MonthOfYear INT,\n    DayOfMonth INT,\n    MonthName VARCHAR(16),\n    MonthInCalendar DATETIME,\n    QuarterInCalendar VARCHAR(16),\n    DayOfWeekName VARCHAR(16),\n    DayInWeek INT,\n    WeekNum INT,\n    Year INT,\n    YearID INT,\n    WeekID INT\n);\n\n-- Populate the Date Dimension Table for a specific year, e.g., 2024\nDECLARE @StartDate DATETIME = '2024-01-01';\nDECLARE @EndDate DATETIME = '2024-12-31';\n\n-- Use a SELECT statement to insert data\nINSERT INTO dwh.d_date (\n    DateKey,\n    DateInt,\n    YearKey,\n    QuarterOfYear,\n    MonthOfYear,\n    DayOfMonth,\n    MonthName,\n    MonthInCalendar,\n    QuarterInCalendar,\n    DayOfWeekName,\n    DayInWeek,\n    WeekNum,\n    Year,\n    YearID,\n    WeekID\n)\nSELECT\n    @StartDate,\n    YEAR(@StartDate),\n    YEAR(@StartDate),\n    DATEPART(QUARTER, @StartDate),\n    MONTH(@StartDate),\n    DAY(@StartDate),\n    DATENAME(MONTH, @StartDate),\n    DATEADD(MONTH, DATEDIFF(MONTH, 0, @StartDate), 0),\n    DATENAME(QUARTER, @StartDate),\n    DATENAME(WEEKDAY, @StartDate),\n    DATEPART(WEEKDAY, @StartDate),\n    DATEPART(WEEK, @StartDate),\n    YEAR(@StartDate),\n    YEAR(@StartDate),\n    DATEPART(WEEK, @StartDate)\nWHERE @StartDate <= @EndDate;\n\n-- Increment the date and repeat the insert for each day of the year\nWHILE @StartDate <= @EndDate\nBEGIN\n    SET @StartDate = DATEADD(DAY, 1, @StartDate);\n\n    INSERT INTO dwh.d_date (\n        DateKey,\n        DateInt,\n        YearKey,\n        QuarterOfYear,\n        MonthOfYear,\n        DayOfMonth,\n        MonthName,\n        MonthInCalendar,\n        QuarterInCalendar,\n        DayOfWeekName,\n        DayInWeek,\n        WeekNum,\n        Year,\n        YearID,\n        WeekID\n    )\n    SELECT\n        @StartDate,\n        YEAR(@StartDate),\n        YEAR(@StartDate),\n        DATEPART(QUARTER, @StartDate),\n        MONTH(@StartDate),\n        DAY(@StartDate),\n        DATENAME(MONTH, @StartDate),\n        DATEADD(MONTH, DATEDIFF(MONTH, 0, @StartDate), 0),\n        DATENAME(QUARTER, @StartDate),\n        DATENAME(WEEKDAY, @StartDate),\n        DATEPART(WEEKDAY, @StartDate),\n        DATEPART(WEEK, @StartDate),\n        YEAR(@StartDate),\n        YEAR(@StartDate),\n        DATEPART(WEEK, @StartDate)\n    WHERE @StartDate <= @EndDate;\nEND\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "novipool",
+				"poolName": "novipool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
