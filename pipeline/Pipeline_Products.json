@@ -1,0 +1,30 @@
+{
+	"name": "Pipeline_Products",
+	"properties": {
+		"activities": [
+			{
+				"name": "novipool_dbo_bulk_load_d_products",
+				"type": "SqlPoolStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"sqlPool": {
+					"referenceName": "novipool",
+					"type": "SqlPoolReference"
+				},
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[bulk_load_d_products]"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2024-05-04T20:11:46Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Quantity analysis",
+	"properties": {
+		"content": {
+			"query": "\n\nselect inventory_id, product_code, Quantity, Cost_Value,Sell_Value  \nfrom dwh.f_inventory where  transaction_type = 'BUY';\n\nselect * from dwh.f_inventory where inventory_date = '2024-12-31';\n\n--  quantity diff after six months accourding to purchase date\nwith qa as (\nselect buy.product_code, buy.quantity starting_quantity, curr.quantity, buy.quantity-curr.quantity quantity_sold, curr.quantity quantity_left \nFROM\n(\n    select inventory_id, product_code, Purchase_Date, Quantity, Cost_Value  \n    from dwh.f_inventory where  transaction_type = 'BUY'\n) buy\nJOIN\n(\n    select inventory_date,inventory_id, product_code, Quantity, Cost_Value,Sell_Value  \n    from dwh.f_inventory where  transaction_type != 'BUY'\n) curr\non buy.inventory_id = curr.inventory_id\nand  DATEADD(month,6, buy.Purchase_Date) =  curr.inventory_date\n)\nSELECT TOP 10 'top', qa.*\nFROM qa \nORDER BY quantity_sold asc;\n\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "novipool",
+				"poolName": "novipool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Inventory Analysis",
+	"properties": {
+		"content": {
+			"query": "/*  --sample data --    */\nselect inventory_id, saledate from  dwh.Sales_Simulation\ngroup by inventory_id, saledate\nhaving count(*)>1;\n911158435\n2024-05-20\n\nselect count(*),min(Sell_Date),max(Sell_Date), sum(Total_Sell_Value) from dwh.f_sales;\n--99 200 2024-01-02 2025-02-04 167 726 347.19\nselect count(*),min(Sell_Date),max(Sell_Date), sum(Sell_Value) from dwh.f_inventory;\n--397 792 2024-01-02 2025-02-04 167 726 347.19\n\nselect * from dwh.f_inventory where inventory_date = '2024-12-31';\n\n\nselect * from dwh.Sales_Simulation where inventory_id = 911158435 order by saledate;\n\nselect * from dwh.f_sales where Sell_Date = '2024-05-11' and inventory_id = 911158435;\nselect * from dwh.f_inventory  where inventory_id = 911158435 order by inventory_date;\nselect * from dwh.f_inventory where inventory_date= '2024-05-05' and Transaction_Type = 'UNCHANGED' ;\n\n\nselect * from dwh.f_inventory where inventory_date= '2024-06-05';\nselect * from dwh.f_inventory  where inventory_id = 1187623378 order by inventory_date;\n\n\n8435\nselect sum(Quantity) from dwh.f_sales where Sell_Date < '2024-03-01' and inventory_id = 911158435;\n--select 497+7938\nselect * from dwh.f_inventory where inventory_date = '2024-02-29' and inventory_id = 911158435;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "novipool",
+				"poolName": "novipool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Procedure exec 1",
+	"properties": {
+		"content": {
+			"query": " EXECUTE [dbo].[bulk_load_d_customers]\n EXECUTE [dbo].[bulk_load_d_suppliers]\n\nselect * from dwh.d_suppliers;\nselect * from dwh.d_customers;\n\n\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "novipool",
+				"poolName": "novipool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
