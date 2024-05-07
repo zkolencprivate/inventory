@@ -1,8 +1,8 @@
 {
-	"name": "SQL script 1",
+	"name": "Referential Integrity",
 	"properties": {
 		"content": {
-			"query": "select * from dwh.d_product_categories;\n\nselect * from dwh.d_products order by product_Name;\n\nselect * from dwh.d_date order by DateKey;\n\n\n\n\nselect * from dwh.d_suppliers;\n\nselect * from dwh.d_date;",
+			"query": "select * from dwh.d_product_categories;\nselect * from dwh.d_products order by product_Name;\nselect * from dwh.d_date order by DateKey;\nselect * from dwh.d_suppliers;\nselect * from dwh.d_date;\n\n--ALTER TABLE dwh.f_inventory ADD CONSTRAINT fk_warehouse FOREIGN KEY NONCLUSTERED(warehouse_id) NOT ENFORCED;\n--https://learn.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/sql-data-warehouse-table-constraints\n--FOREIGN KEY constraint is not supported in dedicated SQL pool.\n\n\n\nALTER TABLE dwh.d_product_categories ADD CONSTRAINT pk_product_categories PRIMARY KEY NONCLUSTERED(product_categories_id) NOT ENFORCED;\nALTER TABLE dwh.d_products ADD CONSTRAINT pk_product PRIMARY KEY NONCLUSTERED(product_id) NOT ENFORCED;\nALTER TABLE dwh.d_customers ADD CONSTRAINT pk_customer PRIMARY KEY NONCLUSTERED(customer_id) NOT ENFORCED;\nALTER TABLE dwh.d_suppliers ADD CONSTRAINT pk_supplier PRIMARY KEY NONCLUSTERED(supplier_id) NOT ENFORCED;\n\nALTER TABLE dwh.d_suppliers ADD CONSTRAINT pk_supplier PRIMARY KEY NONCLUSTERED(supplier_id) NOT ENFORCED;\n\n\n\n\nselect inventory_id,inventory_date from dwh.f_inventory group by inventory_id,inventory_date  having count(*)>1;\n\nALTER TABLE dwh.f_inventory ALTER COLUMN inventory_id INT NOT NULL;\nALTER TABLE dwh.f_inventory ALTER COLUMN inventory_date DATE NOT NULL;\nALTER TABLE dwh.f_inventory ADD CONSTRAINT pk_inventory PRIMARY KEY NONCLUSTERED(inventory_id,inventory_date) NOT ENFORCED;\n\n\nALTER TABLE dwh.f_sales ALTER COLUMN salesid INT NOT NULL;\nALTER TABLE dwh.f_sales ADD CONSTRAINT pk_sales PRIMARY KEY NONCLUSTERED(salesid) NOT ENFORCED;",
 			"metadata": {
 				"language": "sql"
 			},
