@@ -1,0 +1,65 @@
+{
+	"name": "Customers PY",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "5d2addcc-62ea-4c28-9c7e-4cb6bf52d7bd"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"from faker import Faker\n",
+					"import random\n",
+					"\n",
+					"# Initialize the Faker generator\n",
+					"fake = Faker()\n",
+					"\n",
+					"# Define a function to generate a random customer\n",
+					"def generate_customer():\n",
+					"    id = fake.random_int(10000, 99999)\n",
+					"    name = fake.company()\n",
+					"    address = fake.address().replace('\\n', ', ')\n",
+					"    contact_info = fake.phone_number()\n",
+					"    return id,name, address, contact_info\n",
+					"\n",
+					"# Generate a list of customers\n",
+					"customers = []\n",
+					"for _ in range(100): # Generate 10 customers\n",
+					"    customer = generate_customer()\n",
+					"    customers.append(customer)\n",
+					"\n",
+					"# Print the list of customers\n",
+					"for customer in customers:\n",
+					"    print(f\"{customer[0]}; {customer[1]}; {customer[2]}; {customer[3]}\")\n",
+					"    \n",
+					""
+				],
+				"execution_count": null
+			}
+		]
+	}
+}

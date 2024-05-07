@@ -1,0 +1,80 @@
+{
+	"name": "Products PY",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "6d6bcbcd-1af8-47c2-9e02-0fd059f6b04a"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"import random\n",
+					"\n",
+					"from faker import Faker\n",
+					"\n",
+					"# Initialize the Faker generator\n",
+					"fake = Faker()\n",
+					"\n",
+					"# Define the number of products to generate\n",
+					"num_products = 1000\n",
+					"\n",
+					"# Define the product categories\n",
+					"product_categories = ['Tobacco', 'Beverages', 'Food', 'Toys']\n",
+					"supplier_categories = [\n",
+					"    '27100',\n",
+					"    '44120',\n",
+					"    '68693',\n",
+					"    '32713',\n",
+					"    '64555',\n",
+					"    '19123',\n",
+					"    '46630',\n",
+					"    '6677',\n",
+					"    '72713',\n",
+					"    '28309',\n",
+					"]\n",
+					"\n",
+					"# Function to generate a random product\n",
+					"def generate_product():\n",
+					"    # Generate a product name using a combination of methods\n",
+					"    name = fake.word() + \" \" + fake.word()\n",
+					"    product_category = random.choice(product_categories)\n",
+					"    supplier_code = random.choice(supplier_categories)\n",
+					"    product_code = fake.random_number(digits=5)\n",
+					"    cost_price = round(random.uniform(10, 100), 2)\n",
+					"    sell_price = round(cost_price * 1.2, 2) # Assuming a 20% markup\n",
+					"    return f\"{name};{product_category};{supplier_code};{product_code};{cost_price};{sell_price}\"\n",
+					"\n",
+					"# Generate and print the list of products\n",
+					"for _ in range(num_products):\n",
+					"    print(generate_product())\n",
+					""
+				],
+				"execution_count": null
+			}
+		]
+	}
+}

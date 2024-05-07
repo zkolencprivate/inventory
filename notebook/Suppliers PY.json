@@ -1,0 +1,72 @@
+{
+	"name": "Suppliers PY",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "46b4b601-75b5-405b-b5dd-34310a1672d5"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"from faker import Faker\n",
+					"import random\n",
+					"\n",
+					"# Initialize the Faker generator\n",
+					"fake = Faker()\n",
+					"\n",
+					"# Define the product categories\n",
+					"product_categories = ['Tobacco', 'Beverages', 'Food', 'Toys']\n",
+					"\n",
+					"# Define the payment terms\n",
+					"payment_terms = ['30 Days', '60 Days', '90 Days', '120 Days']\n",
+					"\n",
+					"# Function to generate a random supplier\n",
+					"def generate_supplier():\n",
+					"    name = fake.company()\n",
+					"    code = fake.random_number(digits=5)\n",
+					"    address = fake.address().replace('\\n', ', ')\n",
+					"    contact_info = fake.phone_number()\n",
+					"    product_category = random.choice(product_categories)\n",
+					"    payment_term = random.choice(payment_terms)\n",
+					"  \n",
+					"    \n",
+					"    # Return the supplier details as a string separated by semicolons\n",
+					"    return f\"{name};{code};;{address};{contact_info};{product_category};{payment_term}\"\n",
+					"\n",
+					"# Number of suppliers to generate\n",
+					"num_suppliers = 10\n",
+					"\n",
+					"# Generate and print the list of suppliers\n",
+					"for _ in range(num_suppliers):\n",
+					"    print(generate_supplier())\n",
+					""
+				],
+				"execution_count": null
+			}
+		]
+	}
+}
