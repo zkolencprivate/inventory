@@ -1,8 +1,8 @@
 {
-	"name": "SQL script 2",
+	"name": "bulk_load_d_customers",
 	"properties": {
 		"content": {
-			"query": "",
+			"query": "SET ANSI_NULLS ON\nGO\nSET QUOTED_IDENTIFIER ON\nGO\n\nCREATE PROC [dbo].[bulk_load_d_customers] AS\nBEGIN\n\n    truncate table dbo.customers;\n\n    COPY INTO dbo.customers\n    (customer_code 1, customer_name 2, customer_address 3, customer_contact 4)\n    FROM 'https://zkolencstorageaccount.dfs.core.windows.net/zkolencfilesystemname/customers.csv'\n    WITH\n    (\n        FILE_TYPE = 'CSV'\n        ,MAXERRORS = 0\n        ,FIELDTERMINATOR = ';'\n        ,ERRORFILE = 'https://zkolencstorageaccount.dfs.core.windows.net/zkolencfilesystemname/'\n    );\n\n    -- Mark current records as no longer current\n    UPDATE CD\n    SET CD.EndDate = GETDATE() - 1, CD.IsCurrent = 0\n    FROM dwh.d_customers CD\n    JOIN dbo.customers CS ON CD.Customer_Code = CS.Customer_Code\n    WHERE CD.IsCurrent = 1 AND (\n        CD.Customer_Name <> CS.Customer_Name OR\n        CD.Customer_Address <> CS.Customer_Address OR\n        CD.Customer_Contact <> CS.Customer_Contact\n    );\n\n    -- Insert new records for changed data\n    INSERT INTO dwh.d_customers (Customer_Code, Customer_Name, Customer_Address, Customer_Contact, StartDate, EndDate, IsCurrent)\n    SELECT CS.Customer_Code, CS.Customer_Name, CS.Customer_Address, CS.Customer_Contact, GETDATE(), '9999-12-31', 1\n    FROM dbo.customers CS\n    JOIN dwh.d_customers CD ON CS.Customer_Code = CD.Customer_Code\n    WHERE CD.IsCurrent = 0;\n\n    -- New records\n    INSERT INTO dwh.d_customers (Customer_Code, Customer_Name, Customer_Address, Customer_Contact, StartDate, EndDate, IsCurrent)\n    SELECT CS.Customer_Code, CS.Customer_Name, CS.Customer_Address, CS.Customer_Contact, GETDATE(), '9999-12-31', 1\n    FROM dbo.customers CS\n    LEFT JOIN dwh.d_customers CD ON CS.Customer_Code = CD.Customer_Code\n    WHERE CD.Customer_Code IS NULL;\n\n\nEND\nGO",
 			"metadata": {
 				"language": "sql"
 			},

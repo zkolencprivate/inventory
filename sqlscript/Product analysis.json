@@ -2,7 +2,7 @@
 	"name": "Product analysis",
 	"properties": {
 		"content": {
-			"query": "SELECT product_code, AVG(DaysInWarehouse) AS AverageDaysInWarehouse\nFROM Inventory\nGROUP BY product_code\nORDER BY AverageDaysInWarehouse DESC;\n\nSELECT product_code, DATE_TRUNC('week', Date) AS WeekStart, AVG(DaysInWarehouse) AS AverageDaysInWarehouse\nFROM Inventory\nGROUP BY product_code, WeekStart\nORDER BY AverageDaysInWarehouse DESC;\n\nSELECT product_code, DATE_TRUNC('month', Date) AS MonthStart, AVG(DaysInWarehouse) AS AverageDaysInWarehouse\nFROM Inventory\nGROUP BY product_code, MonthStart\nORDER BY AverageDaysInWarehouse DESC;\n\n",
+			"query": "SELECT product_code, AVG(DaysInWarehouse) AS AverageDaysInWarehouse\nFROM Inventory\nGROUP BY product_code\nORDER BY AverageDaysInWarehouse DESC;\n\n\n\n",
 			"metadata": {
 				"language": "sql"
 			},
